@@ -56,7 +56,10 @@ async def login(username, password, panelnum):
         return is_logged_in
 
     except Exception as e:
-        print(f'serv00账号 {username} 登录时出现错误: {e}')
+        if 'serv00' in panelnum:
+            print(f'serv00账号 {username} 登录时出现错误: {e}')
+        else:
+            print(f'ct8账号 {username} 登录时出现错误: {e}')
         return False
 
     finally:
@@ -75,25 +78,30 @@ async def main():
 
         is_logged_in = await login(username, password, panelnum)
 
+        now_utc = format_to_iso(datetime.utcnow())
+        now_beijing = format_to_iso(datetime.utcnow() + timedelta(hours=8))
+
         if is_logged_in:
-            now_utc = format_to_iso(datetime.utcnow())
-            now_beijing = format_to_iso(datetime.utcnow() + timedelta(hours=8))
-            if (panelnum.includes('serv00')) {
-  success_message = serv00账号 ${username} 于北京时间 ${now_beijing}（UTC 时间 ${now_utc}）登录成功！;
-} else {
-  success_message = ct8账号 ${username} 于北京时间 ${now_beijing}（UTC 时间 ${now_utc}）登录成功！;
-}
+            if 'serv00' in panelnum:
+                success_message = f"serv00账号 {username} 于北京时间 {now_beijing} (UTC 时间 {now_utc}) 登录成功！"
+            else:
+                success_message = f"ct8账号 {username} 于北京时间 {now_beijing} (UTC 时间 {now_utc}) 登录成功！"
             print(success_message)
             send_telegram_message(success_message)
         else:
-            print(f'serv00账号 {username} 登录失败，请检查serv00账号和密码是否正确。')
+            if 'serv00' in panelnum:
+                error_message = f"serv00账号 {username} 登录失败，请检查 serv00 账号和密码是否正确。"
+            else:
+                error_message = f"ct8账号 {username} 登录失败，请检查 ct8 账号和密码是否正确。"
+            print(error_message)
+            send_telegram_message(error_message)
 
         delay = random.randint(1000, 8000)
         await delay_time(delay)
 
-    print('所有serv00账号登录完成！')
+    print('所有账号均已登录完成！')
 
-# 发送Telegram消息
+# 发送 Telegram 消息
 def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
@@ -115,7 +123,7 @@ def send_telegram_message(message):
     }
     response = requests.post(url, json=payload, headers=headers)
     if response.status_code != 200:
-        print(f"发送消息到Telegram失败: {response.text}")
+        print(f"Failed to send message to Telegram: {response.text}")
 
 # 运行主程序
 asyncio.get_event_loop().run_until_complete(main())
