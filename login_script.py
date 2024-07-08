@@ -30,7 +30,7 @@ async def login(username, password, panelnum):
             browser = await launch(headless=True, args=['--no-sandbox', '--disable-setuid-sandbox'])
 
         page = await browser.newPage()
-        url = f'https://panel{panelnum}.serv00.com/login/?next=/'
+        url = f'https://{panelnum}/login/?next=/'
         await page.goto(url)
 
         username_input = await page.querySelector('#id_username')
@@ -78,7 +78,11 @@ async def main():
         if is_logged_in:
             now_utc = format_to_iso(datetime.utcnow())
             now_beijing = format_to_iso(datetime.utcnow() + timedelta(hours=8))
-            success_message = f'serv00账号 {username} 于北京时间 {now_beijing}（UTC时间 {now_utc}）登录成功！'
+            if (panelnum.includes('serv00')) {
+  success_message = serv00账号 ${username} 于北京时间 ${now_beijing}（UTC 时间 ${now_utc}）登录成功！;
+} else {
+  success_message = ct8账号 ${username} 于北京时间 ${now_beijing}（UTC 时间 ${now_utc}）登录成功！;
+}
             print(success_message)
             send_telegram_message(success_message)
         else:
