@@ -1,4 +1,4 @@
-## serv00自动化批量保号，每3天自动登录一次面板，并且发送消息到Telegram
+## ct8--serv00自动化批量保号，每3天自动登录一次面板，并且发送消息到Telegram
 
 利用github Action以及python脚本实现
 
