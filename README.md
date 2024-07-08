@@ -31,8 +31,8 @@
         - 
           ```json
           [
-            {"username": "serv00的账号", "password": "serv00的密码", "panelnum": "服务器号，比如s6.serv00.com的就是6"},
-            {"username": "user2", "password": "password2", "panelnum": 2}
+            {"username": "user1", "password": "password1", "panelnum": "panel.ct8.pl"},
+{"username": "user2", "password": "password2", "panelnum": "panel6.serv00.com"}
           ]
           ```
         - `TELEGRAM_BOT_TOKEN`: 你的 Telegram Bot 的 API Token。
